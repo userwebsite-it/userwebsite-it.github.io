@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Find Your Charity</title>
+<meta name="description" content="Real-charity directory with official links and sourced financial snapshots." />
+<style>
+:root{
+  --primary:#1e4d8b;
+  --primary-dark:#173d6c;
+  --text:#0f172a;
+  --muted:#64748b;
+  --bg:#f5f9ff;
+  --line:#dbe6f3;
+  --card:#ffffff;
+  --shadow:0 12px 30px rgba(15,23,42,.08);
+  --green:#0f9d58;
+  --amber:#d97706;
+  --red:#dc2626;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#eef5ff 0,#fff 28%)}
+.container{width:min(1180px,94%);margin:0 auto}
+.header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(219,230,243,.8)}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:18px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);font-weight:800}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--primary),#60a5fa);display:grid;place-items:center;color:#fff;font-size:18px;box-shadow:0 8px 18px rgba(30,77,139,.25)}
+.nav{display:flex;gap:10px;flex-wrap:wrap}
+.nav a,.nav button{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:600;cursor:pointer}
+.nav a:hover,.nav button:hover{border-color:#b8cbe3;transform:translateY(-1px)}
+.hero{padding:54px 0 30px}
+.hero-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:28px;align-items:start}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+.hero-copy{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.88));border:1px solid var(--line);border-radius:26px;padding:30px;box-shadow:var(--shadow)}
+.kicker{display:inline-flex;align-items:center;gap:8px;background:#e8f1ff;color:var(--primary);padding:8px 12px;border-radius:999px;font-weight:700;font-size:.88rem}
+h1{margin:14px 0 10px;font-size:clamp(2.2rem,4.3vw,3.7rem);line-height:1.03;color:#102c57}
+.lead{margin:0;font-size:1.07rem;line-height:1.65;color:#334155;max-width:60ch}
+.small-note{margin-top:14px;color:var(--muted);font-size:.95rem;line-height:1.6}
+.searchbar{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.searchbar input{flex:1;min-width:240px;padding:15px 16px;border-radius:14px;border:1px solid var(--line);font-size:1rem;background:#fff}
+.searchbar button,.cta{appearance:none;border:none;background:var(--primary);color:#fff;padding:14px 18px;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:0 10px 20px rgba(30,77,139,.18)}
+.searchbar button:hover,.cta:hover{background:var(--primary-dark)}
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+@media (max-width:640px){.metric-grid{grid-template-columns:1fr}}
+.metric{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
+.metric strong{display:block;font-size:1.5rem;color:#102c57}
+.metric span{display:block;margin-top:6px;color:var(--muted);font-size:.92rem}
+.side-panel{background:#fff;border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:var(--shadow)}
+.section-title{margin:0 0 14px;color:#102c57}
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (max-width:520px){.feature-grid{grid-template-columns:1fr}}
+.feature-card{background:#f8fbff;border:1px solid var(--line);border-radius:18px;padding:14px;text-decoration:none;color:inherit;transition:.18s ease}
+.feature-card:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(15,23,42,.08)}
+.feature-card img{width:46px;height:46px;border-radius:12px;background:#fff;border:1px solid var(--line);padding:5px}
+.feature-name{margin-top:10px;font-weight:800}
+.feature-meta{margin-top:6px;font-size:.9rem;color:var(--muted)}
+.pill-row{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 6px}
+.pill{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 13px;font-weight:700;color:#22314a;cursor:pointer}
+.pill.active,.pill:hover{border-color:#9ab8de;background:#eef5ff;color:#0f3669}
+.main-shell{padding:18px 0 54px}
+.layout{display:grid;grid-template-columns:280px 1fr;gap:18px}
+@media (max-width:920px){.layout{grid-template-columns:1fr}}
+.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+.sidebar h3{margin:0 0 12px;color:#102c57}
+.field{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:.98rem}
+.label{display:block;margin:12px 0 6px;font-size:.9rem;color:#475569;font-weight:700}
+.check{display:flex;align-items:center;gap:9px;margin-top:12px;color:#334155;font-size:.95rem}
+.results-top{display:flex;justify-content:space-between;gap:12px;align-items:end;flex-wrap:wrap;margin-bottom:12px}
+.results-top p{margin:4px 0 0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.card-top{display:flex;gap:14px;align-items:flex-start}
+.card-top img{width:58px;height:58px;border-radius:16px;background:#fff;border:1px solid var(--line);padding:7px}
+.card h3{margin:0;font-size:1.05rem;line-height:1.3}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;font-size:.84rem;font-weight:700;background:#f8fbff;border:1px solid var(--line);color:#42536a}
+.band-high{color:var(--green);background:#ecfdf3;border-color:#ccefdc}
+.band-medium{color:var(--amber);background:#fff7ed;border-color:#fed7aa}
+.band-low{color:var(--red);background:#fef2f2;border-color:#fecaca}
+.summary{margin:0;color:#334155;line-height:1.55}
+.fin-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:500px){.fin-row{grid-template-columns:1fr}}
+.fin-box{background:#f8fbff;border:1px solid var(--line);border-radius:16px;padding:12px}
+.fin-box strong{display:block;font-size:1.18rem;color:#102c57}
+.fin-box span{display:block;margin-top:5px;color:var(--muted);font-size:.88rem}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:10px 13px;border-radius:12px;font-weight:700;text-decoration:none;cursor:pointer}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn:hover{transform:translateY(-1px)}
+.empty{padding:30px 16px;text-align:center;color:var(--muted)}
+.footer{border-top:1px solid var(--line);background:#fff;margin-top:18px}
+.footer-inner{padding:22px 0 42px;color:#64748b;line-height:1.7}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:100}
+.modal.open{display:flex}
+.modal-box{width:min(760px,100%);background:#fff;border-radius:26px;border:1px solid var(--line);padding:24px;box-shadow:0 30px 60px rgba(0,0,0,.18)}
+.modal-header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.modal-identity{display:flex;gap:14px;align-items:flex-start}
+.modal-identity img{width:64px;height:64px;border-radius:18px;background:#fff;border:1px solid var(--line);padding:8px}
+.modal h2{margin:0 0 6px;color:#102c57}
+.modal p{color:#334155;line-height:1.65}
+.modal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+@media (max-width:720px){.modal-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:460px){.modal-grid{grid-template-columns:1fr}}
+.modal-stat{background:#f8fbff;border:1px solid var(--line);border-radius:18px;padding:14px}
+.modal-stat strong{display:block;font-size:1.28rem;color:#102c57}
+.modal-stat span{display:block;margin-top:6px;color:var(--muted);font-size:.88rem}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.close-x{appearance:none;border:1px solid var(--line);background:#fff;border-radius:12px;width:42px;height:42px;cursor:pointer;font-size:18px}
+.source-note{font-size:.92rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="container bar">
+    <a class="brand" href="#home" id="brandHome">
+      <span class="logo" aria-hidden="true">❤</span>
+      <span>Find Your Charity</span>
+    </a>
+    <nav class="nav">
+      <a href="#browse" id="browseAll">Browse all</a>
+      <button id="topHomeButton" type="button">Home</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="kicker">Real charities only · official links · sourced financial snapshots</span>
+        <h1>Find charities with clearer details before you donate.</h1>
+        <p class="lead">This version of your site only shows real organizations. Every card links to the charity’s official website and includes a sourced snapshot of program spending, estimated non-program spending, and a simple High / Medium / Low rating band.</p>
+        <p class="small-note">The financial snapshot below uses a charity’s program expense ratio from Charity Navigator’s profiles, which are based on public data such as IRS Form 990 filings. It is useful, but not the only thing donors should look at.</p>
+
+        <form class="searchbar" id="homeSearch">
+          <input type="search" id="homeSearchInput" placeholder="Search by charity name, cause, or location" aria-label="Search charities" />
+          <button type="submit">Find charities</button>
+        </form>
+
+        <div class="metric-grid">
+          <div class="metric"><strong>14</strong><span>real charities on this build</span></div>
+          <div class="metric"><strong>10</strong><span>represented cause categories</span></div>
+          <div class="metric"><strong>83.28%</strong><span>average program spending ratio</span></div>
+        </div>
+      </div>
+
+      <aside class="side-panel">
+        <h3 class="section-title">Featured charities</h3>
+        <div class="feature-grid" id="featuredGrid"></div>
+        <p class="small-note" style="margin-top:14px">Tap a card for more detail, or jump into the browse section to filter by category, rating band, and location.</p>
+      </aside>
+    </div>
+
+    <div class="container">
+      <div class="pill-row" id="categoryPills"></div>
+    </div>
+  </section>
+
+  <section class="main-shell" id="browse">
+    <div class="container layout">
+      <aside class="panel sidebar">
+        <h3>Filter charities</h3>
+
+        <label class="label" for="searchInput">Search</label>
+        <input class="field" id="searchInput" type="search" placeholder="Name, cause, or city" />
+
+        <label class="label" for="categorySelect">Category</label>
+        <select class="field" id="categorySelect">
+          <option value="">All categories</option>
+        </select>
+
+        <label class="label" for="bandSelect">Rating band</label>
+        <select class="field" id="bandSelect">
+          <option value="">Any band</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+
+        <label class="label" for="programMin">Minimum program spending</label>
+        <select class="field" id="programMin">
+          <option value="0">Any %</option>
+          <option value="70">70%+</option>
+          <option value="80">80%+</option>
+          <option value="90">90%+</option>
+        </select>
+
+        <label class="check"><input type="checkbox" id="fourStarOnly" /> 4-star charities only</label>
+        <label class="check"><input type="checkbox" id="highOnly" /> High rating band only</label>
+
+        <p class="small-note" style="margin-top:16px">Top-left <strong>Find Your Charity</strong> now returns to the homepage instead of leaving you on the results page.</p>
+      </aside>
+
+      <section>
+        <div class="results-top">
+          <div>
+            <h2 class="section-title" style="margin-bottom:0">Browse charities</h2>
+            <p><span id="resultsCount">0</span> results</p>
+          </div>
+          <p class="source-note">Score band is simplified for your users: High = 90+, Medium = 75–89, Low = below 75.</p>
+        </div>
+        <div class="grid" id="resultsGrid"></div>
+        <div class="empty" id="emptyState" hidden>No charities matched those filters. Try clearing a filter or searching more broadly.</div>
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> Find Your Charity</div>
+    <div>Data note: financial snapshots are sourced from Charity Navigator charity profiles. “Estimated non-program spending” here is calculated as 100% minus the listed program expense ratio.</div>
+    <div>Donor note: overhead alone does not fully measure impact, so users should also review each organization’s mission, results, and reporting before donating.</div>
+  </div>
+</footer>
+
+<div class="modal" id="detailModal" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-identity">
+        <img id="modalLogo" alt="" />
+        <div>
+          <h2 id="modalName"></h2>
+          <div class="meta" id="modalMeta"></div>
+        </div>
+      </div>
+      <button class="close-x" id="closeModal" aria-label="Close">×</button>
+    </div>
+
+    <p id="modalSummary"></p>
+
+    <div class="modal-grid">
+      <div class="modal-stat"><strong id="modalScore"></strong><span>Charity Navigator score</span></div>
+      <div class="modal-stat"><strong id="modalBand"></strong><span>simplified rating band</span></div>
+      <div class="modal-stat"><strong id="modalProgram"></strong><span>program spending ratio</span></div>
+      <div class="modal-stat"><strong id="modalOverhead"></strong><span>estimated non-program spending</span></div>
+    </div>
+
+    <p class="source-note">This site labels “how much they keep” as estimated non-program spending. That is clearer and more accurate than treating all non-program spending as waste.</p>
+
+    <div class="links">
+      <a class="btn primary" id="modalOfficial" target="_blank" rel="noopener">Official website</a>
+      <a class="btn" id="modalSource" target="_blank" rel="noopener">Charity Navigator profile</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const CHARITIES = [{"name": "ASPCA", "category": "Animals & Wildlife", "location": "New York, NY", "website": "https://www.aspca.org", "source": "https://www.charitynavigator.org/ein/131623829", "score": 99, "stars": "4/4", "program_ratio": 75.11, "summary": "Works to prevent cruelty to animals through rescue, adoption, veterinary care, and advocacy.", "domain": "aspca.org", "non_program_ratio": 24.89, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.aspca.org"}, {"name": "World Wildlife Fund", "category": "Environmental & Conservation", "location": "Washington, DC", "website": "https://www.worldwildlife.org", "source": "https://www.charitynavigator.org/ein/521693387", "score": 100, "stars": "4/4", "program_ratio": 78.88, "summary": "Global conservation nonprofit focused on wildlife, habitats, and sustainable natural resource use.", "domain": "worldwildlife.org", "non_program_ratio": 21.12, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.worldwildlife.org"}, {"name": "National Wildlife Federation", "category": "Environmental & Conservation", "location": "Reston, VA", "website": "https://www.nwf.org", "source": "https://www.charitynavigator.org/ein/530204616", "score": 95, "stars": "4/4", "program_ratio": 86.23, "summary": "Conservation organization working on wildlife protection, climate resilience, and environmental justice.", "domain": "nwf.org", "non_program_ratio": 13.77, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.nwf.org"}, {"name": "American Rivers", "category": "Environmental & Conservation", "location": "Washington, DC", "website": "https://www.americanrivers.org", "source": "https://www.charitynavigator.org/ein/237305963", "score": 100, "stars": "4/4", "program_ratio": 73.53, "summary": "Protects and restores rivers and clean water systems across the United States.", "domain": "americanrivers.org", "non_program_ratio": 26.47, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.americanrivers.org"}, {"name": "Feeding America", "category": "Food Security & Hunger Relief", "location": "Chicago, IL", "website": "https://www.feedingamerica.org", "source": "https://www.charitynavigator.org/ein/363673599", "score": 86, "stars": "3/4", "program_ratio": 98.28, "summary": "Nationwide hunger-relief network supporting food banks, pantries, and anti-hunger advocacy.", "domain": "feedingamerica.org", "non_program_ratio": 1.72, "band": "Medium", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.feedingamerica.org"}, {"name": "World Central Kitchen", "category": "Food Security & Hunger Relief", "location": "Washington, DC", "website": "https://www.wck.org", "source": "https://www.charitynavigator.org/ein/273521132", "score": 100, "stars": "4/4", "program_ratio": 92.47, "summary": "Provides fresh meals on the front lines of disasters and humanitarian crises.", "domain": "wck.org", "non_program_ratio": 7.53, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.wck.org"}, {"name": "American Red Cross", "category": "Disaster Relief & Emergency Services", "location": "Washington, DC", "website": "https://www.redcross.org", "source": "https://www.charitynavigator.org/ein/530196605", "score": 100, "stars": "4/4", "program_ratio": 90.81, "summary": "Responds to disasters, supplies blood, trains communities, and supports military families.", "domain": "redcross.org", "non_program_ratio": 9.19, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.redcross.org"}, {"name": "Doctors Without Borders, USA", "category": "Health & Medical Services", "location": "New York, NY", "website": "https://www.doctorswithoutborders.org", "source": "https://www.charitynavigator.org/ein/133433452", "score": 95, "stars": "4/4", "program_ratio": 84.71, "summary": "Medical humanitarian organization delivering emergency care in conflict zones and crises.", "domain": "doctorswithoutborders.org", "non_program_ratio": 15.29, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.doctorswithoutborders.org"}, {"name": "American Cancer Society", "category": "Disease Research & Treatment", "location": "Atlanta, GA", "website": "https://www.cancer.org", "source": "https://www.charitynavigator.org/ein/131788491", "score": 99, "stars": "4/4", "program_ratio": 80.06, "summary": "Funds cancer research, patient support, prevention, and advocacy efforts.", "domain": "cancer.org", "non_program_ratio": 19.94, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.cancer.org"}, {"name": "Habitat for Humanity International", "category": "Homelessness Services & Housing", "location": "Atlanta, GA", "website": "https://www.habitat.org", "source": "https://www.charitynavigator.org/ein/911914868", "score": 97, "stars": "4/4", "program_ratio": 77.47, "summary": "Builds and improves affordable housing with communities around the world.", "domain": "habitat.org", "non_program_ratio": 22.53, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.habitat.org"}, {"name": "Khan Academy", "category": "Education & Schools", "location": "Mountain View, CA", "website": "https://www.khanacademy.org", "source": "https://www.charitynavigator.org/ein/261544963", "score": 100, "stars": "4/4", "program_ratio": 85.67, "summary": "Offers free educational content and practice tools for learners globally.", "domain": "khanacademy.org", "non_program_ratio": 14.33, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.khanacademy.org"}, {"name": "American Civil Liberties Union Foundation", "category": "Civil Rights & Social Justice", "location": "New York, NY", "website": "https://www.aclufoundation.org", "source": "https://www.charitynavigator.org/ein/136213516", "score": 100, "stars": "4/4", "program_ratio": 82.45, "summary": "Litigates, educates, and advocates to protect constitutional rights and civil liberties.", "domain": "aclufoundation.org", "non_program_ratio": 17.55, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.aclufoundation.org"}, {"name": "GiveDirectly", "category": "International Aid & Development", "location": "New York, NY", "website": "https://www.givedirectly.org", "source": "https://www.charitynavigator.org/ein/271661997", "score": 94, "stars": "4/4", "program_ratio": 91.79, "summary": "Delivers direct cash transfers to people living in poverty and during emergencies.", "domain": "givedirectly.org", "non_program_ratio": 8.21, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.givedirectly.org"}, {"name": "The Nature Conservancy", "category": "Environmental & Conservation", "location": "Arlington, VA", "website": "https://www.nature.org", "source": "https://www.charitynavigator.org/ein/530242652", "score": 97, "stars": "4/4", "program_ratio": 68.4, "summary": "Protects lands, waters, and climate through conservation projects in many countries.", "domain": "nature.org", "non_program_ratio": 31.6, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.nature.org"}];
+const featured = [{"name": "World Central Kitchen", "category": "Food Security & Hunger Relief", "location": "Washington, DC", "website": "https://www.wck.org", "source": "https://www.charitynavigator.org/ein/273521132", "score": 100, "stars": "4/4", "program_ratio": 92.47, "summary": "Provides fresh meals on the front lines of disasters and humanitarian crises.", "domain": "wck.org", "non_program_ratio": 7.53, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.wck.org"}, {"name": "American Red Cross", "category": "Disaster Relief & Emergency Services", "location": "Washington, DC", "website": "https://www.redcross.org", "source": "https://www.charitynavigator.org/ein/530196605", "score": 100, "stars": "4/4", "program_ratio": 90.81, "summary": "Responds to disasters, supplies blood, trains communities, and supports military families.", "domain": "redcross.org", "non_program_ratio": 9.19, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.redcross.org"}, {"name": "Khan Academy", "category": "Education & Schools", "location": "Mountain View, CA", "website": "https://www.khanacademy.org", "source": "https://www.charitynavigator.org/ein/261544963", "score": 100, "stars": "4/4", "program_ratio": 85.67, "summary": "Offers free educational content and practice tools for learners globally.", "domain": "khanacademy.org", "non_program_ratio": 14.33, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.khanacademy.org"}, {"name": "American Civil Liberties Union Foundation", "category": "Civil Rights & Social Justice", "location": "New York, NY", "website": "https://www.aclufoundation.org", "source": "https://www.charitynavigator.org/ein/136213516", "score": 100, "stars": "4/4", "program_ratio": 82.45, "summary": "Litigates, educates, and advocates to protect constitutional rights and civil liberties.", "domain": "aclufoundation.org", "non_program_ratio": 17.55, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.aclufoundation.org"}, {"name": "World Wildlife Fund", "category": "Environmental & Conservation", "location": "Washington, DC", "website": "https://www.worldwildlife.org", "source": "https://www.charitynavigator.org/ein/521693387", "score": 100, "stars": "4/4", "program_ratio": 78.88, "summary": "Global conservation nonprofit focused on wildlife, habitats, and sustainable natural resource use.", "domain": "worldwildlife.org", "non_program_ratio": 21.12, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.worldwildlife.org"}, {"name": "American Rivers", "category": "Environmental & Conservation", "location": "Washington, DC", "website": "https://www.americanrivers.org", "source": "https://www.charitynavigator.org/ein/237305963", "score": 100, "stars": "4/4", "program_ratio": 73.53, "summary": "Protects and restores rivers and clean water systems across the United States.", "domain": "americanrivers.org", "non_program_ratio": 26.47, "band": "High", "logo": "https://www.google.com/s2/favicons?sz=128&domain_url=https://www.americanrivers.org"}];
+const categories = ["Animals & Wildlife", "Civil Rights & Social Justice", "Disaster Relief & Emergency Services", "Disease Research & Treatment", "Education & Schools", "Environmental & Conservation", "Food Security & Hunger Relief", "Health & Medical Services", "Homelessness Services & Housing", "International Aid & Development"];
+
+const els = {
+  year: document.getElementById('year'),
+  featuredGrid: document.getElementById('featuredGrid'),
+  categoryPills: document.getElementById('categoryPills'),
+  categorySelect: document.getElementById('categorySelect'),
+  searchInput: document.getElementById('searchInput'),
+  homeSearch: document.getElementById('homeSearch'),
+  homeSearchInput: document.getElementById('homeSearchInput'),
+  bandSelect: document.getElementById('bandSelect'),
+  programMin: document.getElementById('programMin'),
+  fourStarOnly: document.getElementById('fourStarOnly'),
+  highOnly: document.getElementById('highOnly'),
+  resultsGrid: document.getElementById('resultsGrid'),
+  resultsCount: document.getElementById('resultsCount'),
+  emptyState: document.getElementById('emptyState'),
+  browseAll: document.getElementById('browseAll'),
+  topHomeButton: document.getElementById('topHomeButton'),
+  brandHome: document.getElementById('brandHome'),
+  detailModal: document.getElementById('detailModal'),
+  closeModal: document.getElementById('closeModal'),
+  modalLogo: document.getElementById('modalLogo'),
+  modalName: document.getElementById('modalName'),
+  modalMeta: document.getElementById('modalMeta'),
+  modalSummary: document.getElementById('modalSummary'),
+  modalScore: document.getElementById('modalScore'),
+  modalBand: document.getElementById('modalBand'),
+  modalProgram: document.getElementById('modalProgram'),
+  modalOverhead: document.getElementById('modalOverhead'),
+  modalOfficial: document.getElementById('modalOfficial'),
+  modalSource: document.getElementById('modalSource')
+};
+
+els.year.textContent = new Date().getFullYear();
+
+function bandClass(band) {
+  return band === 'High' ? 'band-high' : band === 'Medium' ? 'band-medium' : 'band-low';
+}
+
+function slug(text) {
+  return String(text).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+}
+
+function makeTag(text, extra='') {
+  return `<span class="tag ${extra}">${text}</span>`;
+}
+
+function openHome() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToBrowse() {
+  document.getElementById('browse').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function buildFeatured() {
+  els.featuredGrid.innerHTML = featured.map(item => `
+    <a class="feature-card" href="#browse" data-open="${slug(item.name)}">
+      <img src="${item.logo}" alt="${item.name} logo" loading="lazy" />
+      <div class="feature-name">${item.name}</div>
+      <div class="feature-meta">${item.category}</div>
+      <div class="feature-meta">${item.program_ratio.toFixed(2)}% program · ${item.band} band</div>
+    </a>
+  `).join('');
+}
+
+function buildCategoryControls() {
+  categories.forEach(cat => {
+    const option = document.createElement('option');
+    option.value = cat;
+    option.textContent = cat;
+    els.categorySelect.appendChild(option);
+
+    const pill = document.createElement('button');
+    pill.type = 'button';
+    pill.className = 'pill';
+    pill.textContent = cat;
+    pill.addEventListener('click', () => {
+      els.categorySelect.value = cat;
+      render();
+      goToBrowse();
+      setActivePill(cat);
+    });
+    els.categoryPills.appendChild(pill);
+  });
+}
+
+function setActivePill(category) {
+  [...els.categoryPills.querySelectorAll('.pill')].forEach(pill => {
+    pill.classList.toggle('active', pill.textContent === category);
+  });
+}
+
+function currentFilters() {
+  return {
+    search: els.searchInput.value.trim().toLowerCase(),
+    category: els.categorySelect.value,
+    band: els.bandSelect.value,
+    minProgram: Number(els.programMin.value || 0),
+    fourStarOnly: els.fourStarOnly.checked,
+    highOnly: els.highOnly.checked
+  };
+}
+
+function filterCharities() {
+  const f = currentFilters();
+  return CHARITIES.filter(item => {
+    const haystack = `${item.name} ${item.category} ${item.location} ${item.summary}`.toLowerCase();
+    if (f.search && !haystack.includes(f.search)) return false;
+    if (f.category && item.category !== f.category) return false;
+    if (f.band && item.band !== f.band) return false;
+    if (item.program_ratio < f.minProgram) return false;
+    if (f.fourStarOnly && item.stars !== '4/4') return false;
+    if (f.highOnly && item.band !== 'High') return false;
+    return true;
+  }).sort((a,b) => b.score - a.score || b.program_ratio - a.program_ratio || a.name.localeCompare(b.name));
+}
+
+function cardHTML(item) {
+  return `
+    <article class="card">
+      <div class="card-top">
+        <img src="${item.logo}" alt="${item.name} logo" loading="lazy" />
+        <div>
+          <h3>${item.name}</h3>
+          <div class="meta">
+            ${makeTag(item.category)}
+            ${makeTag(item.band, bandClass(item.band))}
+            ${makeTag(item.stars + ' stars')}
+          </div>
+        </div>
+      </div>
+
+      <p class="summary">${item.summary}</p>
+
+      <div class="meta">
+        ${makeTag(item.location)}
+        ${makeTag('Official site linked')}
+      </div>
+
+      <div class="fin-row">
+        <div class="fin-box">
+          <strong>${item.score}</strong>
+          <span>overall score</span>
+        </div>
+        <div class="fin-box">
+          <strong>${item.program_ratio.toFixed(2)}%</strong>
+          <span>program spending</span>
+        </div>
+        <div class="fin-box">
+          <strong>${item.non_program_ratio.toFixed(2)}%</strong>
+          <span>estimated non-program</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="button" data-details="${slug(item.name)}">View details</button>
+        <a class="btn primary" href="${item.website}" target="_blank" rel="noopener">Official website</a>
+      </div>
+    </article>
+  `;
+}
+
+function render() {
+  const filtered = filterCharities();
+  els.resultsCount.textContent = filtered.length;
+  els.resultsGrid.innerHTML = filtered.map(cardHTML).join('');
+  els.emptyState.hidden = filtered.length !== 0;
+
+  els.resultsGrid.querySelectorAll('[data-details]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const match = CHARITIES.find(item => slug(item.name) === btn.dataset.details);
+      if (match) openModal(match);
+    });
+  });
+}
+
+function openModal(item) {
+  els.modalLogo.src = item.logo;
+  els.modalLogo.alt = `${item.name} logo`;
+  els.modalName.textContent = item.name;
+  els.modalMeta.innerHTML = [
+    makeTag(item.category),
+    makeTag(item.location),
+    makeTag(item.band, bandClass(item.band)),
+    makeTag(item.stars + ' stars')
+  ].join('');
+  els.modalSummary.textContent = item.summary;
+  els.modalScore.textContent = item.score + '%';
+  els.modalBand.textContent = item.band;
+  els.modalProgram.textContent = item.program_ratio.toFixed(2) + '%';
+  els.modalOverhead.textContent = item.non_program_ratio.toFixed(2) + '%';
+  els.modalOfficial.href = item.website;
+  els.modalSource.href = item.source;
+  els.detailModal.classList.add('open');
+  els.detailModal.setAttribute('aria-hidden', 'false');
+}
+
+function closeModal() {
+  els.detailModal.classList.remove('open');
+  els.detailModal.setAttribute('aria-hidden', 'true');
+}
+
+buildFeatured();
+buildCategoryControls();
+render();
+
+els.searchInput.addEventListener('input', render);
+els.categorySelect.addEventListener('change', () => {
+  setActivePill(els.categorySelect.value);
+  render();
+});
+els.bandSelect.addEventListener('change', render);
+els.programMin.addEventListener('change', render);
+els.fourStarOnly.addEventListener('change', render);
+els.highOnly.addEventListener('change', render);
+
+els.homeSearch.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const q = els.homeSearchInput.value.trim();
+  els.searchInput.value = q;
+  render();
+  goToBrowse();
+});
+
+els.browseAll.addEventListener('click', () => {
+  setTimeout(goToBrowse, 0);
+});
+els.topHomeButton.addEventListener('click', openHome);
+els.brandHome.addEventListener('click', (event) => {
+  event.preventDefault();
+  openHome();
+});
+els.closeModal.addEventListener('click', closeModal);
+els.detailModal.addEventListener('click', (event) => {
+  if (event.target === els.detailModal) closeModal();
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closeModal();
+});
+
+document.querySelectorAll('[data-open]').forEach(link => {
+  link.addEventListener('click', () => {
+    const match = CHARITIES.find(item => slug(item.name) === link.dataset.open);
+    if (match) {
+      setTimeout(() => openModal(match), 160);
+    }
+  });
+});
+</script>
+</body>
+</html>
